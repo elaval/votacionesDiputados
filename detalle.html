@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-hidden="true" ng-click="cancel()">&times;</button>
+    <h3 class="modal-title">{{controller.votacion.materia}} <small>({{controller.votacion.resultado}})</small></h3>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    Sesión {{controller.votacion.sesion}} ({{controller.votacion.fecha}}) | Boletín: {{controller.votacion.boletin}} | Id archivo de datos: {{controller.votacion.id}}
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="partido in controller.partidos">
+      <hr>
+      <h4>{{partido}}</h4>
+
+
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 well">
+        <h5 class="text-center">A Favor</h5>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-repeat="voto in controller.gruposVotos[partido]['F']">
+          <img src="https://www.camara.cl/img.aspx?prmid=chs{{voto.id}}" class="img-circle" alt="Image" title="{{voto.name}}">
+        </div>
+      </div>
+
+      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <div class="row" ng-show="controller.gruposVotos[partido]['A']">
+          <h5 class="text-center"><small>Abstención</small></h5>
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" ng-repeat="voto in controller.gruposVotos[partido]['A']">
+            <img src="https://www.camara.cl/img.aspx?prmid=chs{{voto.id}}" class="img-circle" alt="Image" title="{{voto.name}}">
+          </div>
+        </div>       
+        <div class="row" ng-show="controller.gruposVotos[partido]['P']">
+          <h5 class="text-center"><small>Pareo</small></h5>
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" ng-repeat="voto in controller.gruposVotos[partido]['P']">
+            <img src="https://www.camara.cl/img.aspx?prmid=chs{{voto.id}}" class="img-circle" alt="Image" title="{{voto.name}}">
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 well">
+        <h5 class="text-center">En Contra</h5> 
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-repeat="voto in controller.gruposVotos[partido]['C']">
+          <img src="https://www.camara.cl/img.aspx?prmid=chs{{voto.id}}" class="img-circle" alt="Image" title="{{voto.name}}">
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+</div>

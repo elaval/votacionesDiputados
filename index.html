@@ -1,0 +1,187 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Visualizador de votaciones</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css({.tmp,app}) styles/main.css -->
+  <link rel="stylesheet" href="main.css">
+  <!-- endbuild -->
+
+  <!-- ** CSS ** -->
+  <!-- base library -->
+  <script src="./bower_components/modernizr/modernizr.js"></script>
+ 
+</head>
+<body ng-app="tideApp" ng-controller="AppController as controller">
+  <!--[if lt IE 7]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div id="browser_warning">
+    <h3 class="text-muted">Su navegador no soporta algunas funciones modernas (HTML5 / SVG) que son necesarias para el funcionamiento de este visualizador.  Le sugerimos actualizarl el navegador o probar con uno diferente.</h3>
+  </div>
+
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#humandev-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Visualizador de votaciones en la Cámara de Diputados<span ng-show="controller.loading"> (Cargando datos ...)</span> (por @elaval)</a>
+    </div>
+    <div class="collapse navbar-collapse" id="humandev-navbar">
+
+    </div>
+
+    </div>
+  </nav>
+
+  <!-- Add your site or application content here -->
+  <!-- container -->
+  <div class="container" >
+
+    <div class="row">
+      <p>Esta página visualiza el resultado de las votaciones realizadas por la Cámara de Diputados de Chile entre el 11 de Marzo de 2014 y el 23 de Julio de 2015</p>
+
+
+      <p><span class="muted">Esta exploración se inspira en el <a href="http://graves.cl/chile/congreso/camara">excelente trabajo realizado por Álvaro Graves</a> que permite visualizar el perfil de votación de los diputados Chilenos. Los datos con los que se construyá esta página fueron facilitados por Álvaro, quien los extrajo del sitio web de la Cámara de Diputados.</span></p>
+
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <p>Cada votación se representa a través de un mini-gráfico que ilustra el porcentaje de votos a favor y de votos en contra de los disputados en cada partido político.</p> 
+
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+            <img src="./img/leyenda1.png">
+          </div>
+          <span class="muted">Nota: el ancho de cada columna es proporcional a la cantidad de diputados de cada partido</span>
+
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <p>Al hacer click en alguno de los gráficos se puede acceder a un detalle con los votos de cada uno de los diputados en la respectiva votación</p>
+
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+            <img src="./img/detalle.png">
+          </div>
+        </div>
+      </div>
+      <hr>
+      <p>Las siguientes votaciones se agrupan de acuerdo a su resultado (Aprobación o Rechazo) y al nivel de consenso que se observa al interior y entre las coaliciones políticas (Nueva Mayoría / Alianza)</p>
+
+    </div>
+
+    <div class="row">
+      <h3>Votaciones aprobadas con votos dividos en la Nueva Mayoría <small>({{controller.gruposVotaciones['aprobado_division_nm'].length}} votaciones)</small></h3>
+      <small>Votaciones en que los diputados en partidos de la Nueva Mayoría se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
+      <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_division_nm']" td-show-details="controller.ShowDetails"></div>
+    </div>
+
+    <div class="row">
+      <h3>Votaciones aprobadas con votos dividos en la Alianza <small>({{controller.gruposVotaciones['aprobado_division_alianza'].length}} votaciones)</small></h3>
+      <small>Votaciones en que los diputados en partidos de la Alianza se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
+      <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_division_alianza']" td-show-details="controller.ShowDetails"></div>
+    </div>
+
+    <div class="row">
+      <h3>Votaciones aprobadas sin consenso <small>({{controller.gruposVotaciones['aprobado_division'].length}} votaciones)</small></h3>
+      <small>Votaciones en que menos del 50% de los diputados de la Nueva Mayoría o de la Alianza votó a favor </small>
+      <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_division']" td-show-details="controller.ShowDetails"></div>
+    </div>
+
+    <div class="row">
+      <h3>Votaciones aprobadas con apoyo transversal <small>({{controller.gruposVotaciones['aprobado_transversal'].length}} votaciones)</small></h3>
+      <small>Votaciones que cuentan con el apoyo de más del 50% de los diputados de la Nueva Mayoría y de la Alianza</small>
+      <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_transversal']" td-show-details="controller.ShowDetails"></div>
+    </div>
+
+    <div class="row">
+      <h3>Votaciones <strong>rechazadas</strong> pero con voto dividido en la Nueva Mayoría <small>({{controller.gruposVotaciones['rechazado_division_nm'].length}} votaciones)</small></h3>
+      <small>Votaciones en que los diputados en partidos de la Nueva Mayoría se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
+      <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_division_nm']" td-show-details="controller.ShowDetails"></div>
+    </div>
+
+    <div class="row">
+      <h3>Votaciones <strong>rechazadas</strong> pero con voto dividido en la Alianza <small>({{controller.gruposVotaciones['rechazado_division_alianza'].length}} votaciones)</small></h3>
+      <small>Votaciones en que los diputados en partidos de la Alianza se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
+      <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_division_alianza']" td-show-details="controller.ShowDetails"></div>
+    </div>
+
+    <div class="row">
+      <h3>Votaciones <strong>rechazadas</strong> sin consenso <small>({{controller.gruposVotaciones['rechazado_division'].length}} votaciones)</small></h3>
+      <small>Votaciones en que menos del 50% de los diputados de la Nueva Mayoría o de la Alianza votó a contra</small>
+      <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_division']" td-show-details="controller.ShowDetails"></div>
+    </div>
+
+    <div class="row">
+      <h3>Votaciones <strong>rechazadas</strong> con voto transveral <small>({{controller.gruposVotaciones['rechazado_transversal'].length}} votaciones)</small></h3>
+      <small>Votaciones que fueron rechazadas por más del 50% de los diputados de la Nueva Mayoría y de la Alianza</small>
+      <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_transversal']" td-show-details="controller.ShowDetails"></div>
+    </div>
+
+     <div class="footer">
+      <p></p>
+
+      <p>Developed by <a href="http://www.tide.cl" target="_blank">TIDE SA</a>, Chile</p>
+    </div>
+
+
+
+  </div><!-- container -->
+
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-60690293-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <script src="./bower_components/angular/angular.js"></script>
+    <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="./bower_components/d3/d3.js"></script>
+    <script src="./bower_components/underscore/underscore.js"></script>
+    <script src="./bower_components/tide-angular/tide-angular.js"></script>    
+    <script src="./bower_components/d3-tip/index.js"></script>    
+        
+
+
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="app.js"></script>
+    <script src="controller.js"></script>
+    <script src="service.js"></script>
+    <script src="directive.js"></script>
+
+    <!-- endbuild -->
+  </body>
+  </html>
+
