@@ -190,23 +190,28 @@ angular.module('tideApp')
   }
 
 
-  this.filter = function(filterOptions) {
+  this.filter = function(text) {
     // deferred - use of promises to deal with async results
     var deferred = $q.defer();
 
     myself.getData()
     .then(function(data) {
-      // Filter data according to filter options (Ex {'Series Code':'SE.PRM.ENRR.FE'})
-      var filteredData = _.filter(data, function(d) {
-        var satisfyFilter = true;
 
-        _.each(filterOptions, function(value, key) {
-          satisfyFilter = satisfyFilter && (d[key]==value);
+      var newData = {
+        gruposVotaciones : {},
+        diputados : data.diputados
+      }
+      
+      _.each(data.gruposVotaciones, function(grupo,key) {
+        var filteredGroup = _.filter(grupo, function(d) {
+
+          return text ? (d.materia ? d.materia.toLowerCase().indexOf(text.toLowerCase()) >= 0 : false) : true;
         })
-
-        return satisfyFilter;
+        newData.gruposVotaciones[key] = filteredGroup;
       })
-      deferred.resolve(filteredData)
+
+
+      deferred.resolve(newData)
     })
  
     return deferred.promise;

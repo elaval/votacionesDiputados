@@ -155,7 +155,7 @@ angular.module("tide-angular")
         * render
         */
         var render = function(data) {
-          if (data && data.length) {
+          if (data) {
 
             // Adjust height accoring to number of data elements
             var chartsPerRow = Math.floor(width / (minichartWidth+paddingEntreGraficos));
@@ -164,7 +164,10 @@ angular.module("tide-angular")
 
 
             var votacion = svgContainer.selectAll(".votacion")
-            .data(data);
+            .data(data, function(d) {return d.id});
+
+            votacion.exit()
+            .remove();
 
             var newVotacion = votacion.enter()
             .append("g")
@@ -182,7 +185,9 @@ angular.module("tide-angular")
               .attr("width",minichartWidth)
               .attr("height",minichartHeight)
               .attr("rx",2)
-              .attr("fill","#EEEEEE")
+              .attr("fill","#EEEEEE")              
+              .attr("stroke","black")
+              .attr("stroke-width",0.5)
 
 /*
 

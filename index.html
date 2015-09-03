@@ -61,76 +61,93 @@
 
       <p><span class="muted">Esta exploración se inspira en el <a href="http://graves.cl/chile/congreso/camara">excelente trabajo realizado por Álvaro Graves</a> que permite visualizar el perfil de votación de los diputados Chilenos. Los datos con los que se construyá esta página fueron facilitados por Álvaro, quien los extrajo del sitio web de la Cámara de Diputados.</span></p>
 
-      <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="row well">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
           <p>Cada votación se representa a través de un mini-gráfico que ilustra el porcentaje de votos a favor y de votos en contra de los disputados en cada partido político.</p> 
 
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-            <img src="./img/leyenda1.png">
+            <img src="./img/leyenda1.png" height="100">
           </div>
           <span class="muted">Nota: el ancho de cada columna es proporcional a la cantidad de diputados de cada partido</span>
 
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
           <p>Al hacer click en alguno de los gráficos se puede acceder a un detalle con los votos de cada uno de los diputados en la respectiva votación</p>
 
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-            <img src="./img/detalle.png">
+            <img src="./img/detalle.png" height="100">
           </div>
         </div>
       </div>
       <hr>
-      <p>Las siguientes votaciones se agrupan de acuerdo a su resultado (Aprobación o Rechazo) y al nivel de consenso que se observa al interior y entre las coaliciones políticas (Nueva Mayoría / Alianza)</p>
-
     </div>
 
     <div class="row">
-      <h3>Votaciones aprobadas con votos dividos en la Nueva Mayoría <small>({{controller.gruposVotaciones['aprobado_division_nm'].length}} votaciones)</small></h3>
-      <small>Votaciones en que los diputados en partidos de la Nueva Mayoría se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
-      <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_division_nm']" td-show-details="controller.ShowDetails"></div>
+      <h2>Listado de votaciones</h2>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <form class="form" role="search" ng-submit="controller.Search()">
+          <div class="input-group">
+              <input type="text" ng-model="controller.searchText" class="form-control" placeholder="Texto a buscar en votaciones" name="srch-term" id="srch-term">
+              <div class="input-group-btn">
+                  <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search" ng-click="controller.Search()"></i></button>
+              </div>
+          </div>
+        </form>          
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        Se presentan<snap ng-show="controller.votacionesEncontradas"> {{controller.votacionesEncontradas}} de un total de</snap><snap ng-show="controller.totalVotaciones"> {{controller.totalVotaciones}} votaciones</snap> 
+      </div>
+      <p></p>
     </div>
 
-    <div class="row">
-      <h3>Votaciones aprobadas con votos dividos en la Alianza <small>({{controller.gruposVotaciones['aprobado_division_alianza'].length}} votaciones)</small></h3>
-      <small>Votaciones en que los diputados en partidos de la Alianza se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
-      <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_division_alianza']" td-show-details="controller.ShowDetails"></div>
+    <div class="row well margin-top-10">
+      <h3>Votaciones aprobadas</h3>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Con votos divididos en la Nueva Mayoría <small>({{controller.gruposVotaciones['aprobado_division_nm'].length}} votaciones)</small></h4>
+        <small>Votaciones en que los diputados en partidos de la Nueva Mayoría se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
+        <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_division_nm']" td-show-details="controller.ShowDetails"></div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Con votos divididos en la Alianza <small>({{controller.gruposVotaciones['aprobado_division_alianza'].length}} votaciones)</small></h4>
+        <small>Votaciones en que los diputados en partidos de la Alianza se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
+        <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_division_alianza']" td-show-details="controller.ShowDetails"></div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Sin concenso <small>({{controller.gruposVotaciones['aprobado_division'].length}} votaciones)</small></h4>
+        <small>Votaciones en que menos del 50% de los diputados de la Nueva Mayoría o de la Alianza votó a favor </small>
+        <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_division']" td-show-details="controller.ShowDetails"></div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Con apoyo transversal <small>({{controller.gruposVotaciones['aprobado_transversal'].length}} votaciones)</small></h4>
+        <small>Votaciones que cuentan con el apoyo de más del 50% de los diputados de la Nueva Mayoría y de la Alianza</small>
+        <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_transversal']" td-show-details="controller.ShowDetails"></div>
+      </div>
     </div>
 
-    <div class="row">
-      <h3>Votaciones aprobadas sin consenso <small>({{controller.gruposVotaciones['aprobado_division'].length}} votaciones)</small></h3>
-      <small>Votaciones en que menos del 50% de los diputados de la Nueva Mayoría o de la Alianza votó a favor </small>
-      <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_division']" td-show-details="controller.ShowDetails"></div>
+    <div class="row well">
+      <h3>Votaciones rechazadas</h3>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Con votos divididos en la Nueva Mayoría <small>({{controller.gruposVotaciones['rechazado_division_nm'].length}} votaciones)</small></h4>
+        <small>Votaciones en que los diputados en partidos de la Nueva Mayoría se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
+        <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_division_nm']" td-show-details="controller.ShowDetails"></div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Con votos divididos en la Alianza <small>({{controller.gruposVotaciones['rechazado_division_alianza'].length}} votaciones)</small></h4>
+        <small>Votaciones en que los diputados en partidos de la Alianza se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
+        <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_division_alianza']" td-show-details="controller.ShowDetails"></div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Sin consenso <small>({{controller.gruposVotaciones['rechazado_division'].length}} votaciones)</small></h4>
+        <small>Votaciones en que menos del 50% de los diputados de la Nueva Mayoría o de la Alianza votó en contra</small>
+        <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_division']" td-show-details="controller.ShowDetails"></div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <h4>Con apoyo transversal <small>({{controller.gruposVotaciones['rechazado_transversal'].length}} votaciones)</small></h4>
+        <small>Votaciones que fueron rechazadas por más del 50% de los diputados de la Nueva Mayoría y de la Alianza</small>
+        <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_transversal']" td-show-details="controller.ShowDetails"></div>
+      </div>
     </div>
 
-    <div class="row">
-      <h3>Votaciones aprobadas con apoyo transversal <small>({{controller.gruposVotaciones['aprobado_transversal'].length}} votaciones)</small></h3>
-      <small>Votaciones que cuentan con el apoyo de más del 50% de los diputados de la Nueva Mayoría y de la Alianza</small>
-      <div td-sample-viewer td-data="controller.gruposVotaciones['aprobado_transversal']" td-show-details="controller.ShowDetails"></div>
-    </div>
-
-    <div class="row">
-      <h3>Votaciones <strong>rechazadas</strong> pero con voto dividido en la Nueva Mayoría <small>({{controller.gruposVotaciones['rechazado_division_nm'].length}} votaciones)</small></h3>
-      <small>Votaciones en que los diputados en partidos de la Nueva Mayoría se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
-      <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_division_nm']" td-show-details="controller.ShowDetails"></div>
-    </div>
-
-    <div class="row">
-      <h3>Votaciones <strong>rechazadas</strong> pero con voto dividido en la Alianza <small>({{controller.gruposVotaciones['rechazado_division_alianza'].length}} votaciones)</small></h3>
-      <small>Votaciones en que los diputados en partidos de la Alianza se dividen en aprobación y rechazo (más del 25% aprobó y más del 25% rechazó)</small>
-      <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_division_alianza']" td-show-details="controller.ShowDetails"></div>
-    </div>
-
-    <div class="row">
-      <h3>Votaciones <strong>rechazadas</strong> sin consenso <small>({{controller.gruposVotaciones['rechazado_division'].length}} votaciones)</small></h3>
-      <small>Votaciones en que menos del 50% de los diputados de la Nueva Mayoría o de la Alianza votó a contra</small>
-      <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_division']" td-show-details="controller.ShowDetails"></div>
-    </div>
-
-    <div class="row">
-      <h3>Votaciones <strong>rechazadas</strong> con voto transveral <small>({{controller.gruposVotaciones['rechazado_transversal'].length}} votaciones)</small></h3>
-      <small>Votaciones que fueron rechazadas por más del 50% de los diputados de la Nueva Mayoría y de la Alianza</small>
-      <div td-sample-viewer td-data="controller.gruposVotaciones['rechazado_transversal']" td-show-details="controller.ShowDetails"></div>
-    </div>
 
      <div class="footer">
       <p></p>

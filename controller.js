@@ -30,15 +30,27 @@ angular.module('tideApp')
 	var myself = this;
     this.loading = false;
     this.data = [];
+    this.totalVotaciones = 0;
+    this.votacionesEncontradas = 0;
 
     dataService.getData()
     .then(function(data) {
         myself.gruposVotaciones = data.gruposVotaciones;
         myself.diputados = data.diputados;
+        myself.totalVotaciones = calculaTotalVotaciones();
     })
     .catch(function(err) {
         console.log(err)
     })
+
+    this.Search = function() {
+        dataService.filter(myself.searchText)
+        .then(function(data) {
+            myself.gruposVotaciones = data.gruposVotaciones;
+            myself.diputados = data.diputados;
+            myself.votacionesEncontradas = calculaTotalVotaciones();
+        })
+    }
 
     this.ShowDetails = function(d) {
         console.log(d);
@@ -65,6 +77,14 @@ angular.module('tideApp')
         }, function () {
           console.log('Modal dismissed at: ' + new Date());
         });
+    }
+
+    var calculaTotalVotaciones = function() {
+        var contador = 0;
+        _.each(myself.gruposVotaciones, function(d) {
+            contador = contador + d.length;
+        })
+        return contador;
     }
 
 }]);
